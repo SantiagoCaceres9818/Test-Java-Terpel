@@ -6,6 +6,7 @@ import java.time.Period;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties.Io;
 import org.springframework.stereotype.Service;
 
 import com.test.terpel.app.test_terpel.Model.Client;
@@ -38,4 +39,14 @@ public class ClientServices {
         return Period.between(birthday, LocalDate.now()).getYears();
     } 
 
+    public double averageAge () throws IOException {
+        return clientRepository.findAll().stream()
+                .mapToInt(client -> calculateAge(client.getBirthday()))
+                .average()
+                .orElse(0.0);
+    }
+
+    public long quantityClients () throws IOException {
+        return clientRepository.findAll().size();
+    }
 }

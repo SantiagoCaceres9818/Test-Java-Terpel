@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.test.terpel.app.test_terpel.Model.Client;
 import com.test.terpel.app.test_terpel.Service.ClientServices;
+import com.test.terpel.app.test_terpel.dto.AverageDto;
+
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/clients")
@@ -35,5 +39,12 @@ public class ClientController {
     public ResponseEntity<List<String>> listClientsByAge () throws IOException {
         return ResponseEntity.ok(clientServices.listClientsByAge());
     }
+
+    @GetMapping("/average")
+    public ResponseEntity<AverageDto> averageAge() throws IOException {
+        AverageDto response = new AverageDto(clientServices.quantityClients(), clientServices.averageAge());
+        return ResponseEntity.ok(response);
+    }
+    
 
 }
